@@ -4,8 +4,6 @@ import java.util.*;
 
 /**
  * Собственная реализация динамического массива (ArrayList).
- * Это массив, который автоматически расширяется по мере добавления элементов.
- * Не является потокобезопасным.
  * @param <T> тип элементов, хранимых в списке
  */
 public class CustomArrayList<T extends Comparable<T>> {
@@ -101,84 +99,5 @@ public class CustomArrayList<T extends Comparable<T>> {
         Object temp = elements[i];
         elements[i] = elements[j];
         elements[j] = temp;
-    }
-}
-
-/**
- * Собственная реализация HashMap.
- * @param <K> тип ключей
- * @param <V> тип значений
- */
-class CustomHashMap<K, V> {
-    private static class Entry<K, V> {
-        K key;
-        V value;
-        Entry<K, V> next;
-        Entry(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-    }
-
-    private static final int INITIAL_CAPACITY = 16;
-    private Entry<K, V>[] table;
-    private int size;
-
-    public CustomHashMap() {
-        table = new Entry[INITIAL_CAPACITY];
-    }
-
-    public void put(K key, V value) {
-        int index = key.hashCode() % table.length;
-        Entry<K, V> newEntry = new Entry<>(key, value);
-        if (table[index] == null) {
-            table[index] = newEntry;
-        } else {
-            Entry<K, V> current = table[index];
-            while (current.next != null) {
-                if (current.key.equals(key)) {
-                    current.value = value;
-                    return;
-                }
-                current = current.next;
-            }
-            current.next = newEntry;
-        }
-        size++;
-    }
-
-    public V get(K key) {
-        int index = key.hashCode() % table.length;
-        Entry<K, V> current = table[index];
-        while (current != null) {
-            if (current.key.equals(key)) {
-                return current.value;
-            }
-            current = current.next;
-        }
-        return null;
-    }
-
-    public void remove(K key) {
-        int index = key.hashCode() % table.length;
-        Entry<K, V> current = table[index];
-        Entry<K, V> prev = null;
-        while (current != null) {
-            if (current.key.equals(key)) {
-                if (prev == null) {
-                    table[index] = current.next;
-                } else {
-                    prev.next = current.next;
-                }
-                size--;
-                return;
-            }
-            prev = current;
-            current = current.next;
-        }
-    }
-
-    public int size() {
-        return size;
     }
 }

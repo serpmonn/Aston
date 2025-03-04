@@ -9,12 +9,14 @@ class CustomCollectionsTest {
     private CustomArrayList<Integer> intList;
     private CustomArrayList<String> strList;
     private CustomHashMap<String, Integer> map;
+    private CustomHashMap<Integer, String> intMap;
 
     @BeforeEach
     void setUp() {
         intList = new CustomArrayList<>();
         strList = new CustomArrayList<>();
         map = new CustomHashMap<>();
+        intMap = new CustomHashMap<>();
     }
 
     @Test
@@ -106,5 +108,28 @@ class CustomCollectionsTest {
         assertEquals(2, map.size());
         map.remove("one");
         assertEquals(1, map.size());
+    }
+
+    @Test
+    void testHashMapLargeNumberOfOperations() {
+        // Добавляем 1000 элементов
+        for (int i = 0; i < 1000; i++) {
+            intMap.put(i, "Value" + i);
+        }
+
+        // Проверяем, что все добавленные элементы присутствуют
+        for (int i = 0; i < 1000; i++) {
+            assertEquals("Value" + i, intMap.get(i));
+        }
+
+        // Удаляем 1000 элементов
+        for (int i = 0; i < 1000; i++) {
+            intMap.remove(i);
+        }
+
+        // Проверяем, что элементы больше не существуют
+        for (int i = 0; i < 1000; i++) {
+            assertNull(intMap.get(i));
+        }
     }
 }
